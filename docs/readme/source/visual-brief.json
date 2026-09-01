@@ -1,0 +1,140 @@
+{
+  "format": "mz.visual-brief/1",
+  "engineVersion": "2.0.0",
+  "status": "RESOLVED",
+  "request": {
+    "summary": "Create a bilingual, GitHub-safe desktop/mobile SVG README hero suite for codex-model-routing. The visual must explain the explicit routing and acceptance path without implying native automatic model switching."
+  },
+  "intent": {
+    "scope": "readme",
+    "route": "public-direct",
+    "extension": "none",
+    "implementation": "pure-svg",
+    "locales": ["en", "zh-CN"]
+  },
+  "asset": {
+    "profile": "readme-visual",
+    "kind": "bilingual desktop/mobile README hero suite",
+    "hardConstraints": {
+      "format": "route-selected",
+      "sourceIdentity": "repository-evidence",
+      "prohibited": [
+        "invented project claims",
+        "fabricated proof",
+        "changed upstream core decision",
+        "unapproved motion",
+        "unsafe GitHub markup"
+      ]
+    }
+  },
+  "style": {
+    "preset": {
+      "id": "mz-readme-project-native-v1",
+      "family": "project-native-editorial",
+      "version": "1.0.0"
+    },
+    "modifiers": [{"id": "mz-quiet-v1", "axis": "density", "version": "1.0.0"}],
+    "rules": {
+      "identity": ["project-native", "proof-first", "accessible", "review-first"],
+      "geometry": "preserve the README core's selected composition and responsive relationship",
+      "stroke": "use project-native geometry with only controlled public MZ handmade variation",
+      "color": "derive the visual hierarchy from repository evidence and neutral semantic roles",
+      "texture": "restrained physical texture only when compatible with the selected implementation",
+      "composition": "increase intentional negative space and remove non-semantic detail",
+      "depth": "selected by the README core",
+      "detailBudget": "reduce the preset detail budget by one meaningful part",
+      "avoid": [
+        "invented claims",
+        "fabricated screenshots",
+        "owner-derived identity",
+        "fixed personal characters",
+        "remote dependencies in published SVG",
+        "unauthorized animation"
+      ]
+    },
+    "ruleSources": {
+      "identity": "preset:mz-readme-project-native-v1",
+      "geometry": "preset:mz-readme-project-native-v1",
+      "stroke": "preset:mz-readme-project-native-v1",
+      "color": "preset:mz-readme-project-native-v1",
+      "texture": "preset:mz-readme-project-native-v1",
+      "composition": "modifier:mz-quiet-v1",
+      "depth": "preset:mz-readme-project-native-v1",
+      "detailBudget": "modifier:mz-quiet-v1",
+      "avoid": "preset:mz-readme-project-native-v1"
+    },
+    "tokens": {
+      "id": "mz-neutral-core-v1",
+      "version": "1.0.0",
+      "roles": {
+        "canvas": "#F7F4ED",
+        "ink": "#263238",
+        "primary": "#8A6F47",
+        "secondary": "#607D7A",
+        "accent": "#B56B4A",
+        "muted": "#77736B",
+        "lineCharacter": "controlled handmade",
+        "cornerCharacter": "soft but not mascot-like",
+        "texture": "restrained dry-media grain"
+      }
+    }
+  },
+  "content": {
+    "project": "codex-model-routing",
+    "motif": "An explicit routing graph: Sol Max plans, routes, and verifies; Luna Medium handles clear repeatable work; Terra High handles everyday implementation; high-risk or ambiguous work returns to Sol; paths converge on acceptance.",
+    "palette": {
+      "canvas": "#F7F4ED",
+      "ink": "#263238",
+      "primary": "#8A6F47",
+      "secondary": "#607D7A",
+      "accent": "#B56B4A"
+    }
+  },
+  "target": {"skill": "mz-beautify-readme", "mode": "readme"},
+  "generation": {
+    "requirements": [
+      "one-primary-concept",
+      "restraint-and-legible-hierarchy",
+      "controlled-human-imperfection",
+      "traceable-dimensions-names-versions-and-evidence",
+      "original-geometry-prompts-composition-and-assets",
+      "user-acceptance-required",
+      "identity: project-native, proof-first, accessible, review-first",
+      "geometry: preserve the README core's selected composition and responsive relationship",
+      "stroke: use project-native geometry with only controlled public MZ handmade variation",
+      "color: derive the visual hierarchy from repository evidence and neutral semantic roles",
+      "texture: restrained physical texture only when compatible with the selected implementation",
+      "composition: increase intentional negative space and remove non-semantic detail",
+      "depth: selected by the README core",
+      "detailBudget: reduce the preset detail budget by one meaningful part"
+    ],
+    "avoid": [
+      "changed upstream core decision",
+      "fabricated proof",
+      "fabricated screenshots",
+      "fixed personal characters",
+      "invented claims",
+      "invented project claims",
+      "owner-derived identity",
+      "remote dependencies in published SVG",
+      "unapproved motion",
+      "unauthorized animation",
+      "unsafe GitHub markup"
+    ],
+    "promptBlocks": ["MZ Core", "Asset profile: readme-visual", "Base preset: mz-readme-project-native-v1", "Token set: mz-neutral-core-v1", "Modifier: mz-quiet-v1"]
+  },
+  "provenance": {
+    "core": "references/core.md",
+    "preset": "mz-readme-project-native-v1",
+    "profile": "readme-visual",
+    "catalogHash": "bcb3ea0b6a3b4fd6bf18a718c82ca72c1dd6be4ada0a996366d48c844f05f0b8",
+    "sources": []
+  },
+  "engineCompat": {
+    "format": "mz.engine-compat/1",
+    "engineVersion": "2.0.0",
+    "target": "readme",
+    "snapshotHash": "3ce1f64ae05533ea8a61939414f2007dfc3c1881732f62a49513dc90d5a56f09",
+    "sourceCatalogHash": "2f74eaa8d55b4037b702c200ace510b9b9a7680c861070be0c04ee04e9824ed0"
+  }
+}

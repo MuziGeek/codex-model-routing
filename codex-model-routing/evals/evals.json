@@ -1,0 +1,29 @@
+{
+  "skill_name": "codex-model-routing",
+  "evals": [
+    {
+      "id": 1,
+      "name": "audit-and-authorized-repair",
+      "prompt": "请先审计我用于 Codex 的 config.toml 和全局 AGENTS.md，预览 Sol Max 主线程与 Luna/Terra 子代理路由的修复差异；确认后我会明确授权写入。",
+      "expected_output": "先以只读方式审计并运行 plan，说明受管字段、未知配置保留、备份和重启后的运行时验证；在当前轮不写入。",
+      "files": [],
+      "expectations": ["区分 audit、plan 与 apply，不把预览升级为写入", "读取 routing-design.md 后使用脚本而非手工重写配置", "说明用户级 apply 需要 --confirm-user-level-change 和明确授权", "把静态配置与运行时实际派发分开报告"]
+    },
+    {
+      "id": 2,
+      "name": "conflicting-configuration-stop",
+      "prompt": "修复我的 Codex 路由；config.toml 里有两个 [agents] 表，AGENTS.md 还有一个未闭合的 CODEX_MODEL_ROUTING_BEGIN 标记。",
+      "expected_output": "停止写入，指出重复 agents 表和不配对标记是需要人工决定的冲突，并给出只读审计证据。",
+      "files": [],
+      "expectations": ["不尝试猜测、合并或覆盖冲突配置", "不自动恢复旧配置", "明确说明修复前应先消除结构冲突"]
+    },
+    {
+      "id": 3,
+      "name": "ordinary-project-model-choice",
+      "prompt": "这个 React 页面的小改动要选哪个模型？直接帮我完成代码修改。",
+      "expected_output": "不加载或执行全局 Codex 模型路由配置流程；按当前项目任务正常处理。",
+      "files": [],
+      "expectations": ["不建议修改用户级 config.toml 或 AGENTS.md", "不把单次项目模型选择误当成全局路由配置"]
+    }
+  ]
+}

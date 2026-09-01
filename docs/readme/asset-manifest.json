@@ -1,0 +1,85 @@
+{
+  "format": "mz.readme-asset/3",
+  "status": "READY_FOR_REVIEW",
+  "repository": "MuziGeek/codex-model-routing",
+  "upstreamCore": {
+    "repository": "oil-oil/beautify-github-readme",
+    "commit": "55bdb1c05414cd7a0cf911d02e55ece79777206e"
+  },
+  "localization": {
+    "primaryLocale": "en",
+    "outputLocales": ["en", "zh-CN"]
+  },
+  "brief": {
+    "path": "source/readme-brief.json",
+    "sha256": "42a47f93ddc7fb99072fd939140701887be1fb37980192fd8ba7d97e8813183c",
+    "role": "locked MZ README brief"
+  },
+  "visualBrief": {
+    "path": "source/visual-brief.json",
+    "sha256": "a85451ecf1c30f08473db0da7619627de8027d77ca2c3ce8d16f702f026bc443",
+    "role": "resolved public visual handoff"
+  },
+  "publishedAsset": {
+    "path": "assets/hero.svg",
+    "sha256": "7733e0427f1627bc997123a3614be0879cd6df7b61975837478e7bd56fca5c84",
+    "role": "English desktop README hero",
+    "locale": "en",
+    "viewport": "desktop"
+  },
+  "variants": [
+    {
+      "path": "assets/hero.mobile.svg",
+      "sha256": "e4e7a2f6d5387e91e6587cc9618589de7c59edfdafd2550e601c0a3d6b07eeb7",
+      "role": "English mobile README hero",
+      "locale": "en",
+      "viewport": "mobile"
+    },
+    {
+      "path": "assets/hero.zh-CN.svg",
+      "sha256": "ba9e30f27262982736a027989417d2f35776008ef0d823ebef00b66441bb9d91",
+      "role": "Simplified Chinese desktop README hero",
+      "locale": "zh-CN",
+      "viewport": "desktop"
+    },
+    {
+      "path": "assets/hero.zh-CN.mobile.svg",
+      "sha256": "a0744f4894d29fc82657b21d400c32d81eaa2c1f0a09376be54acf6fdcc50b4c",
+      "role": "Simplified Chinese mobile README hero",
+      "locale": "zh-CN",
+      "viewport": "mobile"
+    }
+  ],
+  "sources": [
+    {
+      "path": "source/mz-intent.json",
+      "sha256": "cfc7cccc1d902c0c46b4343ee86761d1343c912ba1f5db9117c4376f240d5a25",
+      "role": "public direct-route intent"
+    },
+    {
+      "path": "source/visual-brief.json",
+      "sha256": "a85451ecf1c30f08473db0da7619627de8027d77ca2c3ce8d16f702f026bc443",
+      "role": "resolved Engine Snapshot handoff"
+    },
+    {
+      "path": "source/readme-brief.json",
+      "sha256": "42a47f93ddc7fb99072fd939140701887be1fb37980192fd8ba7d97e8813183c",
+      "role": "locked bilingual copy and core decision"
+    }
+  ],
+  "validation": {
+    "payloadTests": true,
+    "visualBrief": true,
+    "readmeBrief": true,
+    "assetHashes": true,
+    "englishReadmeAudit": true,
+    "chineseReadmeAudit": true,
+    "desktop900Inspected": true,
+    "mobile360Inspected": true,
+    "darkLightSafeBackground": true,
+    "visualBalancePassed": true,
+    "remoteResourcesAbsent": true,
+    "motionAbsent": true,
+    "stagedDiffCheck": true
+  }
+}

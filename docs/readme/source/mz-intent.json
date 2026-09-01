@@ -1,0 +1,30 @@
+{
+  "format": "mz.intent/1",
+  "request": "Create a bilingual, GitHub-safe desktop/mobile SVG README hero suite for codex-model-routing. The visual must explain the explicit routing and acceptance path without implying native automatic model switching.",
+  "intent": {
+    "scope": "readme",
+    "route": "public-direct",
+    "extension": "none",
+    "implementation": "pure-svg",
+    "locales": ["en", "zh-CN"]
+  },
+  "asset": {
+    "profile": "readme-visual",
+    "kind": "bilingual desktop/mobile README hero suite"
+  },
+  "style": {
+    "preset": "mz-readme-project-native-v1",
+    "modifiers": ["mz-quiet-v1"]
+  },
+  "content": {
+    "project": "codex-model-routing",
+    "motif": "An explicit routing graph: Sol Max plans, routes, and verifies; Luna Medium handles clear repeatable work; Terra High handles everyday implementation; high-risk or ambiguous work returns to Sol; paths converge on acceptance.",
+    "palette": {
+      "canvas": "#F7F4ED",
+      "ink": "#263238",
+      "primary": "#8A6F47",
+      "secondary": "#607D7A",
+      "accent": "#B56B4A"
+    }
+  }
+}
