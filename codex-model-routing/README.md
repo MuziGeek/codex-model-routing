@@ -49,3 +49,7 @@ python <oil-skill-creator>/scripts/validate_skill.py .
 ```
 
 测试覆盖未知配置保留、幂等、备份、重复 `[agents]` 拒绝、标记冲突拒绝和 `plan` 不写入。静态校验不等同于桌面端运行时验收。
+
+## 许可证
+
+本 Skill 采用 [MIT License](LICENSE) 开源。Copyright (c) 2026 Muzi。

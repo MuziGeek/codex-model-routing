@@ -83,4 +83,8 @@ python codex-model-routing/tests/test_codex_model_routing.py
 - The public model/configuration documentation and the target host must be rechecked before writing. In particular, reasoning-effort availability is a drift point.
 - This README does not make a release claim and no automatic routing telemetry is provided.
 
+## License
+
+Released under the [MIT License](./LICENSE). Copyright (c) 2026 Muzi.
+
 For the exact user-level behavior and safety conditions, read the installed [Skill README](./codex-model-routing/README.md) and [SKILL.md](./codex-model-routing/SKILL.md).

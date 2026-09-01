@@ -83,4 +83,8 @@ python codex-model-routing/tests/test_codex_model_routing.py
 - 写入前必须重新核对公开模型/配置文档和目标宿主；推理强度的可用性尤其属于漂移点。
 - 本 README 不作 release 声明，也不提供自动路由遥测。
 
+## 许可证
+
+本项目采用 [MIT License](./LICENSE) 开源。Copyright (c) 2026 Muzi。
+
 用户级行为和安全条件请阅读已安装的 [Skill README](./codex-model-routing/README.md) 与 [SKILL.md](./codex-model-routing/SKILL.md)。
