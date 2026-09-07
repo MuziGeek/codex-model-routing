@@ -1,6 +1,6 @@
 # codex-model-routing
 
-这是一个 Codex 专用 Skill，用来把“Sol Max 主线程规划与验收、按任务显式选择 Luna/Terra 子代理”的约定变成可检查、可预览、可备份的本地配置。它避免了只修改默认子代理却没有行为规则、误覆盖未知配置、或把静态配置当作运行时事实的问题。
+这是一个 Codex 专用 Skill，用来把“当前主线程规划与验收、按任务显式选择 Luna/Terra 子代理”的约定变成可检查、可预览、可备份的本地配置。它避免了只修改默认子代理却没有行为规则、误覆盖未知配置、或把静态配置当作运行时事实的问题。
 
 路由先判断拆分收益：简单完整任务默认直做，不因“文档、测试、多文件”标签强制派发；读、改、测同一小目标是一个闭环。仅在独立工作或复核收益超过交接成本后才选择 Luna/Terra，不为配额制造复核；不确定时先直做。用户明确要求使用或不使用子代理时遵从其限制，高风险核心判断始终由主线程负责。
 
@@ -44,17 +44,17 @@ python scripts/codex_model_routing.py --codex-home <目录> --rules-only plan
 python scripts/codex_model_routing.py --codex-home <目录> --rules-only apply --confirm-user-level-change
 ```
 
-`--rules-only` 只读取、备份和更新 `AGENTS.md`，不读取或验证 `config.toml`，原配置不存在时也不会创建它。完整模式会安装 Sol Max 预设；规则模式尊重当前主模型选择，不将其他主模型冒称为 Sol。
+`--rules-only` 只读取、备份和更新 `AGENTS.md`，不读取或验证 `config.toml`，原配置不存在时也不会创建它。完整模式仅额外更新子代理默认值；两种模式均保留当前主模型、主线程推理强度和 Plan 设置，不新增缺省字段。
 
-可以自然地说“审计我的 Codex 模型路由”“预览修复 config.toml 和 AGENTS.md 的差异”“解释 Sol/Luna/Terra 应如何分工”，或在明确授权后说“按此策略修复我的 Codex 全局模型路由”。Skill 会区分仅解释、只读审计和可写入修复。
+可以自然地说“审计我的 Codex 模型路由”“预览修复 config.toml 和 AGENTS.md 的差异”“解释当前主线程与 Luna/Terra 应如何分工”，或在明确授权后说“按此策略修复我的 Codex 全局模型路由”。Skill 会区分仅解释、只读审计和可写入修复。
 
 ## 兼容性与边界
 
 这是 Codex 专用工具，不管理普通项目的模型选择，也不替代一次具体任务的派发判断。Python 代码只使用标准库；Windows 上已验证，其余平台仅做了静态兼容性设计检查。实际可用模型、桌面端加载行为和配置格式随 Codex 版本变化，写入后必须在重新打开 Codex 后做新的只读运行时验证。
 
-当前公开[配置参考](https://learn.chatgpt.com/docs/config-file/config-reference)只把 `plan_mode_reasoning_effort` 列到 `xhigh`，而部分桌面宿主的模型目录会在模型层提供 `max`。本 Skill 的目标策略包含 `plan_mode_reasoning_effort = "max"`；只有目标宿主明确接受该值时才能写入，否则必须停止并报告漂移，不能静默降级。模型定位与 Max/Ultra 边界见[模型说明](https://learn.chatgpt.com/docs/models)，实际派发条件见[子代理文档](https://learn.chatgpt.com/docs/agent-configuration/subagents)。
+主线程模型、主线程推理强度与 Plan 设置由用户或宿主决定，本 Skill 不管理这些字段。子代理模型可用性请核对目标宿主与[模型说明](https://learn.chatgpt.com/docs/models)，配置字段见[配置参考](https://learn.chatgpt.com/docs/config-file/config-reference)，实际派发边界见[子代理文档](https://learn.chatgpt.com/docs/agent-configuration/subagents)。
 
-脚本只管理三个顶层模型字段、唯一 `[agents]` 表的四个字段，以及 `AGENTS.md` 中唯一的路由标记块。它不会修改插件、MCP、权限、服务层级、官方自定义 `[agents.<role>]` 子表或其他未知配置。重复或数组形式的根 `[agents]`、冲突/不配对标记与不可解析 TOML 都会停止而不是猜测修复。
+脚本只管理唯一 `[agents]` 表的四个字段，以及 `AGENTS.md` 中唯一的路由标记块。它不会修改插件、MCP、权限、服务层级、官方自定义 `[agents.<role>]` 子表或其他未知配置。重复或数组形式的根 `[agents]`、冲突/不配对标记与不可解析 TOML 都会停止而不是猜测修复。
 
 完整模式写入前还会检查候选配置的实际含义：目标字段必须生效，非受管配置值必须保持不变。复杂 TOML 布局若无法安全编辑会停止，不承诺支持所有合法写法。无子代理能力时仍可本地审计、预览和更新文件，但不能证明运行时派发；文件操作无需浏览器或 GUI。
 

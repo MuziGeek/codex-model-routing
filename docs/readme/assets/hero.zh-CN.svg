@@ -1,43 +1,41 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
-  <title id="title">codex-model-routing：Codex 的显式模型路由策略</title>
-  <desc id="desc">一张路由图：Sol Max 负责规划、路由和验收；Luna Medium 处理清晰且可重复的工作；Terra High 处理日常实现；高风险或模糊任务回到 Sol；所有路径汇入验收。</desc>
-  <rect width="1200" height="420" rx="28" fill="#F7F4ED"/>
-  <g fill="none" stroke="#263238" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M80 48H1120" stroke-width="2" opacity=".22"/>
-    <path d="M882 142V164M766 164H1006M766 164V180M1006 164V180M766 264V288M1006 264V288" stroke="#8A6F47" stroke-width="4"/>
-    <path d="M886 142C886 218 1100 190 1100 264C1100 294 1022 300 1022 300" stroke="#B56B4A" stroke-width="3"/>
-    <path d="M1022 300l12-8M1022 300l12 8" stroke="#B56B4A" stroke-width="3"/>
-  </g>
-  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif" fill="#263238">
-    <text x="80" y="92" font-size="20" font-weight="700" letter-spacing="2" fill="#8A6F47">CODEX SKILL · 显式派发</text>
-    <text x="80" y="156" font-size="54" font-weight="750" letter-spacing="-1.5">codex-model-routing</text>
-    <text x="80" y="205" font-size="27" font-weight="600">为有意图的 Codex 子代理派发提供</text>
-    <text x="80" y="239" font-size="27" font-weight="600">可审计的本地配置与行为规则。</text>
-    <text x="80" y="300" font-size="21" font-weight="650" fill="#607D7A">先审计 · 保留未知配置 · 运行时复核</text>
-    <text x="80" y="348" font-size="21">默认值只提供路由基础；实际显式派发来自</text>
-    <text x="80" y="378" font-size="21">直接请求或适用的 AGENTS / Skill 指令。</text>
-  </g>
-  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif">
-    <g transform="translate(746 62)">
-      <rect width="280" height="80" rx="16" fill="#263238"/>
-      <text x="22" y="33" fill="#F7F4ED" font-size="26" font-weight="750">SOL MAX</text>
-      <text x="22" y="61" fill="#F7F4ED" font-size="20" font-weight="600">规划 · 路由 · 验收</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="480" viewBox="0 0 1200 480" role="img" aria-labelledby="title desc" lang="zh-CN">
+  <title id="title">codex-model-routing：简单直做，值得才派发</title>
+  <desc id="desc">策略示意：主线程沿用当前模型；简单或紧密耦合的任务直接完成，值得拆分的独立工作才交给 Luna Medium 或 Terra High，主线程验收。这不是运行记录。</desc>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 9 5 1 9" fill="none" stroke="#626762" stroke-width="1.5"/></marker></defs>
+  <rect width="1200" height="480" rx="28" fill="#F7F4ED"/>
+  <g font-family="Segoe UI, Microsoft YaHei, PingFang SC, sans-serif" fill="#263238">
+    <g id="project-title">
+      <text x="56" y="48" font-size="20" fill="#426A64" font-weight="600">CODEX SKILL / 按收益派发</text>
+      <text x="56" y="109" font-size="52" font-weight="700" letter-spacing="-1.5">codex-model-routing</text>
+      <text x="56" y="153" font-size="28">当前模型继续掌舵，值得拆分才派发。</text>
     </g>
-    <g transform="translate(656 180)">
-      <rect width="220" height="84" rx="16" fill="#607D7A"/>
-      <text x="20" y="34" fill="#F7F4ED" font-size="25" font-weight="750">LUNA MEDIUM</text>
-      <text x="20" y="63" fill="#F7F4ED" font-size="20" font-weight="600">清晰 · 可重复</text>
+    <g id="routing-connectors" fill="none" stroke="#626762" stroke-width="3" marker-end="url(#arrow)">
+      <path d="M302 308 H352 V254 H404"/>
+      <path d="M352 308 V372 H404"/>
+      <path d="M784 254 H826 V310 H868"/>
+      <path d="M784 372 H826 V310" marker-end="none"/>
     </g>
-    <g transform="translate(896 180)">
-      <rect width="220" height="84" rx="16" fill="#8A6F47"/>
-      <text x="20" y="34" fill="#F7F4ED" font-size="25" font-weight="750">TERRA HIGH</text>
-      <text x="20" y="63" fill="#F7F4ED" font-size="20" font-weight="600">日常实现</text>
+    <g id="current-main">
+      <rect x="56" y="240" width="246" height="136" rx="16" fill="#263238"/>
+      <text x="80" y="292" font-size="24" font-weight="700" fill="#FFFFFF">当前主模型</text>
+      <text x="80" y="330" font-size="20" fill="#E5EBE8">沿用你的任务设置</text>
     </g>
-    <g transform="translate(728 300)">
-      <rect width="280" height="72" rx="16" fill="#F7F4ED" stroke="#263238" stroke-width="3"/>
-      <text x="22" y="30" fill="#263238" font-size="25" font-weight="750">验收</text>
-      <text x="22" y="56" fill="#607D7A" font-size="20" font-weight="700">差异 · 测试 · 运行时复核</text>
+    <g id="direct-path">
+      <rect x="404" y="212" width="380" height="84" rx="16" fill="#E4ECE6"/>
+      <text x="428" y="246" font-size="24" font-weight="700" fill="#365A53">默认直做</text>
+      <text x="428" y="277" font-size="20">简单或紧密耦合的任务</text>
     </g>
-    <text x="1110" y="158" text-anchor="end" fill="#B56B4A" font-size="17" font-weight="750">高风险 / 模糊 → SOL</text>
+    <g id="conditional-delegation">
+      <rect x="404" y="330" width="380" height="84" rx="16" fill="#EFE5D5"/>
+      <text x="428" y="362" font-size="23" font-weight="700" fill="#705333">值得拆分，才派发</text>
+      <text x="428" y="394" font-size="24">Luna Medium · Terra High</text>
+    </g>
+    <g id="acceptance">
+      <rect x="868" y="240" width="276" height="136" rx="16" fill="#FFFFFF" stroke="#BCCAC2" stroke-width="2"/>
+      <text x="894" y="292" font-size="24" font-weight="700">主线程验收</text>
+      <text x="894" y="330" font-size="20" fill="#626762">差异 + 相关测试</text>
+    </g>
+    <text x="56" y="452" font-size="19" fill="#626762">策略示意 · 非运行记录</text>
+    <text x="1144" y="452" text-anchor="end" font-size="19" fill="#626762">高风险核心判断留在主线程</text>
   </g>
 </svg>

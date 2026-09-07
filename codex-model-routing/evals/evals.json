@@ -4,7 +4,7 @@
     {
       "id": 1,
       "name": "audit-and-authorized-repair",
-      "prompt": "请先审计我用于 Codex 的 config.toml 和全局 AGENTS.md，预览 Sol Max 主线程与 Luna/Terra 子代理路由的修复差异；确认后我会明确授权写入。",
+      "prompt": "请先审计我用于 Codex 的 config.toml 和全局 AGENTS.md，预览沿用当前主线程模型的 Luna/Terra 子代理路由修复差异；确认后我会明确授权写入。",
       "expected_output": "先以只读方式审计并运行 plan，说明受管字段、未知配置保留、备份和重启后的运行时验证；在当前轮不写入。",
       "files": [],
       "expectations": ["区分 audit、plan 与 apply，不把预览升级为写入", "读取 routing-design.md 后使用脚本而非手工重写配置", "说明用户级 apply 需要 --confirm-user-level-change 和明确授权", "把静态配置与运行时实际派发分开报告"]

@@ -53,7 +53,6 @@ def run_case(run: dict, outputs: Path) -> tuple[list[bool], list[dict]]:
                 failures_untouched &= untouched
             else:
                 expected = tomllib.loads(source)
-                expected.update(model="gpt-5.6-sol", model_reasoning_effort="max", plan_mode_reasoning_effort="max")
                 expected.setdefault("agents", {}).update(enabled=True, max_concurrent_threads_per_session=3, default_subagent_model="gpt-5.6-terra", default_subagent_reasoning_effort="high")
                 all_safe &= tomllib.loads(config.read_text(encoding="utf-8")) == expected
         return [all_safe, failures_untouched], records

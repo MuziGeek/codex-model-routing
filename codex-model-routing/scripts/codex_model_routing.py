@@ -24,11 +24,6 @@ import tomllib
 from typing import Any
 
 
-TOP_LEVEL_VALUES = {
-    "model": '"gpt-5.6-sol"',
-    "model_reasoning_effort": '"max"',
-    "plan_mode_reasoning_effort": '"max"',
-}
 AGENT_VALUES = {
     "enabled": "true",
     "max_concurrent_threads_per_session": "3",
@@ -40,7 +35,7 @@ END = "<!-- CODEX_MODEL_ROUTING_END -->"
 ROUTING_BLOCK = f"""{BEGIN}
 ## Codex 模型路由：主线程优先 + 按收益显式派发
 
-预设主线程为 `gpt-5.6-sol` + `max`，负责理解目标、规划、路由、集成和最终验收；用户已选择其他主模型时保留该选择，不切换、不冒称当前模型为 Sol。Plan 模式由用户在界面中手动进入；进入 Plan 时只规划、不实施。不要自动选择或升级到 `ultra`；预设中的“最高”固定指 Sol Max。
+主线程默认沿用当前任务实际使用的模型与推理强度，负责理解目标、规划、路由、集成和最终验收；不指定固定型号，不根据本规则切换或升级模型，也不把当前选择写成全局默认。Plan 模式由用户在界面中手动进入，沿用用户现有设置；进入 Plan 时只规划、不实施。仅在确需派发时，为子代理选择下述模型与推理强度。
 
 ### 先判断是否值得派发
 
@@ -160,7 +155,6 @@ def validate_candidate(original: dict[str, Any], candidate: str) -> str:
     except tomllib.TOMLDecodeError as exc:
         raise RoutingError(f"候选 config.toml 无法解析，停止写入：{exc}") from exc
     expected = copy.deepcopy(original)
-    expected.update(tomllib.loads("\n".join(f"{key} = {value}" for key, value in TOP_LEVEL_VALUES.items())))
     agents = expected.setdefault("agents", {})
     if not isinstance(agents, dict):
         raise RoutingError("agents 不是普通配置表，停止修改")
@@ -191,12 +185,8 @@ def render_config(original: str) -> str:
 
     ending = line_ending(original)
     first_header = headers[0][0] if headers else len(lines)
-    root_positions = assignment_positions(lines, 0, first_header, TOP_LEVEL_VALUES)
-    root = lines[:first_header]
-    for name, positions in root_positions.items():
-        if positions:
-            root[positions[0]] = f"{name} = {TOP_LEVEL_VALUES[name]}{ending}"
-    root_text = add_missing_assignments("".join(root), TOP_LEVEL_VALUES, root_positions, ending)
+    # Main-thread/Plan settings belong to the user, including their absence.
+    root_text = "".join(lines[:first_header])
     suffix = "".join(lines[first_header:])
     candidate = root_text + suffix
 
@@ -216,7 +206,7 @@ def render_config(original: str) -> str:
             candidate += agent_block
         return validate_candidate(parsed_original, candidate)
 
-    # Recompute offsets after root changes by rendering the agents table from the original suffix.
+    # Only render the agents table; preserve the original root section verbatim.
     agent_index = agent_headers[0][0]
     next_headers = [index for index, _, _ in headers if index > agent_index]
     agent_end = next_headers[0] if next_headers else len(lines)

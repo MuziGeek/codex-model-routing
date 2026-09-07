@@ -49,7 +49,7 @@ class CodexModelRoutingTests(unittest.TestCase):
         agents = (home / "AGENTS.md").read_text(encoding="utf-8")
         self.assertIn('custom_option = "keep"', config)
         self.assertIn("[experimental]\nfeature = true", config)
-        self.assertIn('model = "gpt-5.6-sol"', config)
+        self.assertNotIn("model", tomllib.loads(config))
         self.assertIn("[agents]", config)
         self.assertIn("Keep this line.", agents)
         self.assertIn(routing.BEGIN, agents)
@@ -231,7 +231,7 @@ class CodexModelRoutingTests(unittest.TestCase):
                 self.assertEqual(0, status)
                 self.assertEqual(backups, list((home / "backups").iterdir()))
 
-    def test_full_modes_reject_multiline_false_headers_and_assignments_without_writes(self) -> None:
+    def test_full_modes_handle_multiline_without_semantic_changes(self) -> None:
         configs = [
             'description = """\n[not_a_table]\n"""\nkeep = true\n',
             "developer_instructions = '''\nmodel = \"example\"\n'''\n",
@@ -246,8 +246,14 @@ class CodexModelRoutingTests(unittest.TestCase):
                     before = {path.name: path.read_bytes() for path in home.iterdir()}
                     args = [command] + (["--confirm-user-level-change"] if command == "apply" else [])
                     status, _ = self.run_main(home, *args)
-                    self.assertEqual(2, status)
-                    self.assertEqual(before, {path.name: path.read_bytes() for path in home.iterdir()})
+                    if status == 2 or command != "apply":
+                        self.assertIn(status, (0, 2))
+                        self.assertEqual(before, {path.name: path.read_bytes() for path in home.iterdir()})
+                    else:
+                        self.assertEqual(0, status)
+                        expected = tomllib.loads(config)
+                        expected.setdefault("agents", {}).update(tomllib.loads("\n".join(f"{k} = {v}" for k, v in routing.AGENT_VALUES.items())))
+                        self.assertTrue(routing.same_toml_value(expected, tomllib.loads((home / "config.toml").read_text(encoding="utf-8"))))
 
     def test_full_apply_preserves_benign_multiline_and_special_toml_values(self) -> None:
         config = 'description = """\nordinary text\n"""\nnumber = nan\nvalues = [inf, -inf, nan]\ndate = 2026-01-01\n'
@@ -259,32 +265,51 @@ class CodexModelRoutingTests(unittest.TestCase):
             after = tomllib.loads((home / "config.toml").read_text(encoding="utf-8"))
             for key, value in before.items():
                 self.assertTrue(routing.same_toml_value(value, after[key]))
-            self.assertEqual("gpt-5.6-sol", after["model"])
+            self.assertNotIn("model", after)
 
     def test_semantic_guard_rejects_unknown_value_mutation_before_backup(self) -> None:
         with self.make_home('keep = true\n', "# guidance\n") as folder:
             home = Path(folder)
             before = {path.name: path.read_bytes() for path in home.iterdir()}
-            original = routing.add_missing_assignments
-            def corrupt(prefix, values, existing, ending):
-                return original(prefix, values, existing, ending).replace("keep = true", "keep = false")
-            with mock.patch.object(routing, "add_missing_assignments", side_effect=corrupt):
+            original = routing.validate_candidate
+            def corrupt(before, candidate):
+                return original(before, candidate.replace("keep = true", "keep = false"))
+            with mock.patch.object(routing, "validate_candidate", side_effect=corrupt):
                 status, _ = self.run_main(home, "apply", "--confirm-user-level-change")
             self.assertEqual(2, status)
             self.assertEqual(before, {path.name: path.read_bytes() for path in home.iterdir()})
 
-    def test_semantic_guard_rejects_missing_real_model_even_if_toml_parses(self) -> None:
+    def test_semantic_guard_rejects_missing_subagent_model_even_if_toml_parses(self) -> None:
         with self.make_home(agents="# guidance\n") as folder:
             home = Path(folder)
-            original = routing.add_missing_assignments
-            def omit_model(prefix, values, existing, ending):
-                result = original(prefix, values, existing, ending)
-                return result.replace('model = "gpt-5.6-sol"' + ending, "")
-            with mock.patch.object(routing, "add_missing_assignments", side_effect=omit_model):
+            original = routing.validate_candidate
+            def omit_model(before, candidate):
+                return original(before, candidate.replace('default_subagent_model = "gpt-5.6-terra"\n', ""))
+            with mock.patch.object(routing, "validate_candidate", side_effect=omit_model):
                 status, _ = self.run_main(home, "apply", "--confirm-user-level-change")
             self.assertEqual(2, status)
             self.assertFalse((home / "config.toml").exists())
             self.assertFalse((home / "backups").exists())
+
+    def test_full_apply_preserves_main_and_plan_settings_verbatim(self) -> None:
+        for root in (
+            '',
+            'model = "user-selected" # keep\nmodel_reasoning_effort = "low"\nplan_mode_reasoning_effort = "medium"\n',
+            'model = "gpt-5.6-sol"\nmodel_reasoning_effort = "max"\n',
+            '[profiles.custom]\nmodel = "another-choice"\nmodel_reasoning_effort = "high"\n',
+        ):
+            with self.subTest(root=root), self.make_home(root, "# guidance\n") as folder:
+                home = Path(folder)
+                status, _ = self.run_main(home, "apply", "--confirm-user-level-change")
+                self.assertEqual(0, status)
+                result = (home / "config.toml").read_text(encoding="utf-8")
+                self.assertTrue(result.startswith(root))
+                parsed = tomllib.loads(result)
+                parsed.pop("agents")
+                self.assertEqual(tomllib.loads(root), parsed)
+                status, output = self.run_main(home, "--json", "audit")
+                self.assertEqual(0, status)
+                self.assertFalse(json.loads(output)["changed"])
 
 
 if __name__ == "__main__":

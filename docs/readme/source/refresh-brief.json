@@ -1,0 +1,53 @@
+{
+  "format": "readme-refresh/1",
+  "status": "READY_FOR_REVIEW",
+  "date": "2026-09-07",
+  "skill": "beautify-github-readme",
+  "mode": "readme",
+  "audience": "Codex users who want deliberate subagent delegation without replacing their chosen main model.",
+  "oneSentenceValue": "Keep the current model; finish simple tasks directly; delegate only worthwhile independent work.",
+  "primaryProof": "A policy diagram and labeled illustrative routing scenarios, backed by the local routing script and tests; not live dispatch telemetry.",
+  "firstSuccessfulAction": "Install the Skill, then ask for a read-only audit or run the audit command.",
+  "visualTheme": "An editorial routing fork that visibly preserves a direct path.",
+  "artDirection": {
+    "palette": {
+      "background": "#F7F4ED",
+      "foreground": "#263238",
+      "primary": "#426A64",
+      "accent": "#80633E",
+      "muted": "#626762"
+    },
+    "typography": "Segoe UI / Microsoft YaHei / system sans-serif; title 52, route labels 24, supporting 20; mobile essential type 28+ on a 720-unit canvas.",
+    "shape": "28-unit canvas radius; 16-unit route corners; 3-unit connectors; generous clear space.",
+    "motif": "Current main thread branches into direct work or worthwhile delegation, then owns acceptance.",
+    "composition": "Title above a horizontal decision fork on desktop; a simplified stacked fork on mobile."
+  },
+  "scope": [
+    "README.md",
+    "README.zh-CN.md",
+    "docs/readme/assets/hero*.svg",
+    "docs/readme/asset-manifest.json",
+    "docs/readme/source/refresh-brief.json"
+  ],
+  "preserve": [
+    "All routing implementation and installed payload files",
+    "User-level Codex configuration",
+    "Existing historical MZ source briefs"
+  ],
+  "proofSources": [
+    "codex-model-routing/scripts/codex_model_routing.py",
+    "codex-model-routing/SKILL.md",
+    "codex-model-routing/tests/test_codex_model_routing.py"
+  ],
+  "note": "Earlier source/readme-brief.json, visual-brief.json and mz-intent.json are historical design inputs, not validation of this refresh.",
+  "implementation": "pure-svg",
+  "motion": "none",
+  "preview": {
+    "desktopWidth": 900,
+    "mobileWidth": 360,
+    "themes": [
+      "light",
+      "dark"
+    ]
+  }
+}

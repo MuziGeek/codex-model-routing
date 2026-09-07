@@ -1,40 +1,43 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="720" height="480" viewBox="0 0 720 480" role="img" aria-labelledby="title desc">
-  <title id="title">codex-model-routing: explicit model-routing policy for Codex</title>
-  <desc id="desc">A routing map where Sol Max plans, routes, and verifies; Luna Medium handles clear repeatable work; Terra High handles everyday implementation; risk or ambiguity returns to Sol; all paths lead to acceptance.</desc>
-  <rect width="720" height="480" rx="28" fill="#F7F4ED"/>
-  <path d="M40 42H680" fill="none" stroke="#263238" stroke-width="2" opacity=".22"/>
-  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" fill="#263238">
-    <text x="40" y="78" font-size="17" font-weight="700" letter-spacing="1.5" fill="#8A6F47">CODEX SKILL · EXPLICIT ROUTING</text>
-    <text x="40" y="128" font-size="44" font-weight="750" letter-spacing="-1">codex-model-routing</text>
-    <text x="40" y="166" font-size="22" font-weight="600">Auditable configuration and behavior rules</text>
-    <text x="40" y="194" font-size="22" font-weight="600">for deliberate Codex subagent dispatch.</text>
-  </g>
-  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M360 274V294M190 294H530M190 294V308M530 294V308M190 380V397M530 380V397M190 397H530M360 397V408" stroke="#8A6F47" stroke-width="4"/>
-    <path d="M638 308C676 280 650 250 492 250" stroke="#B56B4A" stroke-width="3"/>
-    <path d="M492 250l12-8M492 250l12 8" stroke="#B56B4A" stroke-width="3"/>
-  </g>
-  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
-    <g transform="translate(224 210)">
-      <rect width="272" height="64" rx="16" fill="#263238"/>
-      <text x="18" y="28" fill="#F7F4ED" font-size="24" font-weight="750">SOL MAX</text>
-      <text x="18" y="51" fill="#F7F4ED" font-size="17" font-weight="600">PLAN · ROUTE · VERIFY</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="736" viewBox="0 0 720 736" role="img" aria-labelledby="title desc" lang="en">
+  <title id="title">codex-model-routing: direct first, delegate when worthwhile</title>
+  <desc id="desc">Policy diagram: the main thread keeps its current model. Simple or tightly coupled work stays direct; only worthwhile independent work goes to Luna Medium or Terra High. The main thread verifies. This is not a runtime record.</desc>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 9 5 1 9" fill="none" stroke="#626762" stroke-width="1.5"/></marker></defs>
+  <rect width="720" height="736" rx="28" fill="#F7F4ED"/>
+  <g font-family="Segoe UI, Microsoft YaHei, PingFang SC, sans-serif" fill="#263238">
+    <g id="project-title">
+      <text x="40" y="53" font-size="26" fill="#426A64" font-weight="600">CODEX SKILL / DIRECT FIRST</text>
+      <text x="40" y="113" font-size="46" font-weight="700" letter-spacing="-1">codex-model-routing</text>
+      <text x="40" y="166" font-size="32">Keep your current model.</text>
+      <text x="40" y="209" font-size="32">Direct first. Delegate with purpose.</text>
     </g>
-    <text x="620" y="286" text-anchor="end" fill="#B56B4A" font-size="17" font-weight="750">RISK / AMBIGUITY → SOL</text>
-    <g transform="translate(48 308)">
-      <rect width="284" height="72" rx="16" fill="#607D7A"/>
-      <text x="18" y="30" fill="#F7F4ED" font-size="23" font-weight="750">LUNA MEDIUM</text>
-      <text x="18" y="56" fill="#F7F4ED" font-size="17" font-weight="600">CLEAR · REPEATABLE</text>
+    <g id="routing-connectors" fill="none" stroke="#626762" stroke-width="3" marker-end="url(#arrow)">
+      <path d="M360 338 V366 H191 V396"/>
+      <path d="M360 366 H529 V396"/>
+      <path d="M191 540 V570 H360 V600"/>
+      <path d="M529 540 V570 H360" marker-end="none"/>
     </g>
-    <g transform="translate(388 308)">
-      <rect width="284" height="72" rx="16" fill="#8A6F47"/>
-      <text x="18" y="30" fill="#F7F4ED" font-size="23" font-weight="750">TERRA HIGH</text>
-      <text x="18" y="56" fill="#F7F4ED" font-size="17" font-weight="600">EVERYDAY BUILD</text>
+    <g id="current-main">
+      <rect x="40" y="248" width="640" height="90" rx="16" fill="#263238"/>
+      <text x="360" y="285" text-anchor="middle" font-size="32" font-weight="700" fill="#FFFFFF">CURRENT MODEL</text>
+      <text x="360" y="319" text-anchor="middle" font-size="28" fill="#E5EBE8">Your task, your choice</text>
     </g>
-    <g transform="translate(224 408)">
-      <rect width="272" height="54" rx="15" fill="#F7F4ED" stroke="#263238" stroke-width="3"/>
-      <text x="18" y="24" fill="#263238" font-size="21" font-weight="750">ACCEPTANCE</text>
-      <text x="18" y="44" fill="#607D7A" font-size="15" font-weight="700">DIFF · TESTS · RUNTIME CHECK</text>
+    <g id="direct-path">
+      <rect x="40" y="396" width="302" height="144" rx="16" fill="#E4ECE6"/>
+      <text x="191" y="434" text-anchor="middle" font-size="28" font-weight="700" fill="#365A53">DIRECT</text>
+      <text x="191" y="477" text-anchor="middle" font-size="28">Small tasks</text>
+      <text x="191" y="517" text-anchor="middle" font-size="28">Coupled work</text>
     </g>
+    <g id="conditional-delegation">
+      <rect x="378" y="396" width="302" height="144" rx="16" fill="#EFE5D5"/>
+      <text x="529" y="434" text-anchor="middle" font-size="28" font-weight="700" fill="#705333">Worthwhile split</text>
+      <text x="529" y="477" text-anchor="middle" font-size="30">Luna Medium</text>
+      <text x="529" y="517" text-anchor="middle" font-size="30">Terra High</text>
+    </g>
+    <g id="acceptance">
+      <rect x="40" y="600" width="640" height="90" rx="16" fill="#FFFFFF" stroke="#BCCAC2" stroke-width="2"/>
+      <text x="360" y="638" text-anchor="middle" font-size="32" font-weight="700">MAIN VERIFIES</text>
+      <text x="360" y="672" text-anchor="middle" font-size="28" fill="#626762">Diff + relevant tests</text>
+    </g>
+    <text x="360" y="724" text-anchor="middle" font-size="24" fill="#626762">POLICY DIAGRAM · Not runtime evidence</text>
   </g>
 </svg>

@@ -1,111 +1,130 @@
 # codex-model-routing
 
-[简体中文](./README.zh-CN.md)
+[简体中文](./README.zh-CN.md) · [Install](#quick-start) · [Safety](#what-changes)
 
 <p align="center">
   <picture>
     <source media="(max-width: 600px)" srcset="./docs/readme/assets/hero.mobile.svg">
-    <img src="./docs/readme/assets/hero.svg" width="100%" alt="codex-model-routing routing map: Sol Max plans, routes, and verifies; Luna Medium handles clear repeatable work; Terra High handles everyday implementation; risk or ambiguity returns to Sol; all paths lead to acceptance.">
+    <img src="./docs/readme/assets/hero.svg" width="100%" alt="Codex routing policy: keep the current main model. Simple tasks stay in the main thread; only worthwhile independent work goes to Luna or Terra. The main thread verifies the result.">
   </picture>
 </p>
 
-An auditable Codex Skill for setting up a deliberate model-routing policy: a Sol Max main thread plans, routes, and verifies; Luna Medium takes clear, repeatable work; Terra High takes everyday implementation. It is a configuration and behavior-rule companion—not Codex-native automatic switching of the root model.
+Keep your current main model. Finish small tasks directly. Delegate to Luna or Terra only when the work is worth splitting.
 
-## Evidence before promises
+This Codex Skill helps you audit and apply routing rules and optional subagent defaults. Installing the Skill alone does not change your configuration. It does **not** switch the main model automatically, require Sol Max, or dispatch agents merely because a task involves documents, tests, or multiple files.
 
-The included payload exposes three deliberate modes: `audit`, `plan`, and `apply`.
+## What that looks like
 
-- `audit` inspects the managed model fields and the routing block without writing.
-- `plan` shows the candidate diff without writing.
-- `apply` requires an explicit user-level confirmation flag, writes atomically, and records original files plus a SHA-256 manifest in `backups/` when there is a change.
+These are policy examples, not recorded runtime results:
 
-It stops on malformed TOML, duplicate or array-form root `[agents]` tables, conflicting routing markers, and other unsafe states. It preserves unknown configuration rather than replacing the whole file.
-
-## How routing really works
-
-Codex configuration can set defaults for subagent model and reasoning effort. Actual subagent dispatch is a behavior decision: Codex dispatches when directly asked, or when applicable project or Skill instructions require it. An explicit `spawn` model/reasoning override takes precedence over defaults.
-
-This Skill writes the accompanying `AGENTS.md` routing rule so that the model choice is observable and reviewable. It does not claim automatic routing telemetry, a release workflow, or a runtime dispatch that has not been independently observed.
-
-**Direct first, route only when worthwhile.** A lookup, small edit, local review, or one test run stays in the main thread. Reading, editing, and testing one small change—even across related files—is one task, not a reason to split. Delegate only a bounded, independently verifiable work item with genuine parallel-work or independent-review value that exceeds handoff and integration cost. When unsure, work directly. Respect explicit requests to use or avoid subagents; do not add a review just to meet a quota. Small direct tasks need no routing ceremony.
-
-The division follows OpenAI's current guidance for [Sol, Terra, Luna, Max, and Ultra](https://learn.chatgpt.com/docs/models), while the dispatch behavior and override precedence come from the official [Subagents](https://learn.chatgpt.com/docs/agent-configuration/subagents) documentation. Supported configuration keys must always be checked against the current [Configuration Reference](https://learn.chatgpt.com/docs/config-file/config-reference).
-
-| Work shape | Intended handling |
+| Request | Expected route |
 | --- | --- |
-| Simple coherent task, tightly coupled serial work, or unclear delegation value | Main thread directly; no forced split |
-| Architecture, security, migration, data-loss, production risk, or ambiguity | Keep the core decision in the main thread |
-| Clear, repeatable research, organization, documentation, or mechanical work that passes the delegation gate | Luna Medium |
-| Everyday implementation, integration, debugging, or review that passes the delegation gate | Terra High |
-| Non-high-risk debugging that still passes the gate, after a documented Terra High failure | Escalate Terra once to XHigh, then re-evaluate |
+| Fix a typo and check the result | Main thread; one complete task |
+| Review a small, tightly related change | Main thread; no extra reviewer to meet a quota |
+| Research an independent topic while the main thread implements | Luna Medium, if handoff is worthwhile |
+| Implement a bounded, independent module | Terra High, if delegation is worthwhile |
+| Decide on a risky migration or security change | Main thread owns the core decision |
 
-## Install and take the first safe action
+**Decide whether to delegate before choosing a model.** A work item must have a clear boundary, an independently checkable result, and useful parallel-work or independent-review value that exceeds startup and integration cost. When unsure, work directly. Respect explicit requests to use or avoid subagents.
 
-Ask your Agent: **Please install this Skill: https://github.com/MuziGeek/codex-model-routing**.
+## Quick start
 
-Or install with the optional Node.js-based installer (Node.js is not a runtime dependency of this Skill):
+Requires Codex and **Python 3.11+**; the routing script uses only the standard library.
+
+Ask your agent to install [this Skill](https://github.com/MuziGeek/codex-model-routing), or use the optional Node.js-based installer:
 
 ```text
 npx skills add MuziGeek/codex-model-routing --skill codex-model-routing
 ```
 
-Add `--list` to check discovery without installing. If an installer is unavailable, manually copy the whole `codex-model-routing` payload directory into a Codex-discoverable Skill location.
+Add `--list` for discovery without installation. Alternatively, copy the entire `codex-model-routing/` directory to a Codex-discoverable Skill location.
 
-Then begin with a read-only audit from the installed Skill directory:
+After installation, ask:
 
-The script requires Python 3.11+. Below, `python` means a verified interpreter; check `py -3` on Windows or `python3` on macOS/Linux, or use the interpreter's full path.
+> Use codex-model-routing to audit my current routing setup. Show proposed changes, but do not write anything.
 
-```text
-python scripts/codex_model_routing.py --codex-home <Codex Home> audit
-```
-
-`CODEX_HOME` is used when set; otherwise the script uses the current user's `.codex` directory. Supplying `--codex-home` is useful for an isolated test directory.
-
-## Plan before apply
-
-For a behavior-only update, preserve the user's selected main model and all configuration bytes with `--rules-only`. It manages only the paired `AGENTS.md` block, backs up that file, and does **not** read or validate `config.toml`:
+Or run this **from the installed Skill directory**:
 
 ```text
-python scripts/codex_model_routing.py --codex-home <Codex Home> --rules-only plan
-python scripts/codex_model_routing.py --codex-home <Codex Home> --rules-only apply --confirm-user-level-change
+python scripts/codex_model_routing.py audit
 ```
 
-The full mode below installs the Sol Max preset and requires model compatibility checks. Do not use it merely to update dispatch behavior when a different main model has been selected.
+Here, `python` means a verified Python 3.11+ interpreter; use `py -3`, `python3`, or its full path as appropriate. The target is `CODEX_HOME` when set, otherwise the current user's `.codex` directory. To select another target, place `--codex-home "path/to/codex-home"` **before** the subcommand.
 
-Only use a write after reviewing the current plan and receiving explicit authorization for this user-level change:
+## Preview before changing anything
+
+`audit` checks the setup. `plan` shows a candidate diff. Neither writes files. `apply` requires explicit authorization for the current user-level change; the confirmation flag is not a substitute for permission.
+
+For **routing rules only**, leaving all configuration bytes untouched:
 
 ```text
-python scripts/codex_model_routing.py --codex-home <Codex Home> plan
-python scripts/codex_model_routing.py --codex-home <Codex Home> apply --confirm-user-level-change
+python scripts/codex_model_routing.py --rules-only plan
 ```
 
-Before every write, re-check both the current official Codex configuration reference and the target host's actually available models or strict-load result. Model support and allowed reasoning efforts can drift between app versions, documentation, and hosts. A passing static plan is not permission to apply on every version.
+After reviewing the diff and authorizing the write:
 
-> **Compatibility gate:** the current public configuration reference lists `plan_mode_reasoning_effort` only through `xhigh`, while some desktop model catalogs expose `max` at the model level. This payload's target policy includes `plan_mode_reasoning_effort = "max"`. Do not apply it unless the target host accepts that value; stop and report the drift instead of silently downgrading it.
+```text
+python scripts/codex_model_routing.py --rules-only apply --confirm-user-level-change
+```
 
-## Verify, then trust
+`--rules-only` manages the routing block in `AGENTS.md`; it does not read, validate, or write `config.toml`. Use full mode only when you also want to configure subagent defaults.
 
-After an authorized write, reopen Codex and perform a new, read-only runtime check of the main-thread model, plan reasoning effort, default subagent settings, and any explicitly requested dispatch. Static configuration checks do not prove that the desktop host loaded a file or ran a task with the intended model.
+<details>
+<summary>Full mode: routing rules + subagent defaults</summary>
 
-Run the payload tests from this repository root:
+Before writing, check the current official [configuration reference](https://learn.chatgpt.com/docs/config-file/config-reference), [model guidance](https://learn.chatgpt.com/docs/models), and the target host's model availability or strict-load result. Stop on incompatibility; do not silently substitute models.
+
+```text
+python scripts/codex_model_routing.py plan
+```
+
+After reviewing the diff and authorizing the write:
+
+```text
+python scripts/codex_model_routing.py apply --confirm-user-level-change
+```
+
+The script manages these four fields in the unique root table:
+
+```toml
+[agents]
+enabled = true
+max_concurrent_threads_per_session = 3
+default_subagent_model = "gpt-5.6-terra"
+default_subagent_reasoning_effort = "high"
+```
+
+Defaults alone do not prove dispatch. See the official [subagent documentation](https://learn.chatgpt.com/docs/agent-configuration/subagents) and verify actual behavior after loading the rules.
+
+</details>
+
+## What changes
+
+- **Main model stays yours.** Neither mode adds or overwrites `model`, `model_reasoning_effort`, or `plan_mode_reasoning_effort`. Missing fields stay missing. Enter Plan manually; existing Plan settings remain yours.
+- **Only scoped changes.** Full mode manages the four fields above and one paired routing block in `AGENTS.md`. Plugins, MCP, permissions, service tier, custom agent roles, and other configuration remain unchanged.
+- **Recoverable writes.** Changed files are backed up under the target's `backups/` with a SHA-256 manifest. Writes are atomic per file, not a two-file transaction. Reapplying an unchanged setup creates no duplicate backup.
+- **Stop instead of guessing.** Conflicting markers, malformed or unsafe-to-edit TOML, and changed unmanaged values block a write. Some valid complex TOML layouts are intentionally rejected. On a write failure, inspect the reported backup and current state before recovery.
+
+## When delegation is worthwhile
+
+Luna Medium handles bounded research, documentation, mechanical changes, or clear tests. Terra High handles ordinary implementation, integration, debugging, or review. Non-high-risk debugging may move from Terra High to XHigh **once**, after a documented failure; missing permissions, dependencies, or a broken environment are not reasons to upgrade.
+
+The rules cap concurrency at three subagents, prohibit nested delegation, and require one writer per shared file or state. Actual dispatch must be announced with its scope and model; the main thread checks the diff and relevant tests before accepting the result. Small direct tasks need no routing ceremony.
+
+## Verify actual behavior
+
+After an authorized update, reopen Codex or start a task that loads the new rules. Check both paths: a small task should stay direct; a genuinely independent workload should be considered for delegation. Confirm the main model remains unchanged and inspect the parent's actual dispatch parameters—not a subagent's self-description.
+
+**Static checks do not prove host loading or live model identity.** There is no automatic routing telemetry. Windows file behavior has been tested; macOS and Linux runtime behavior remains unverified.
+
+For maintainers, run from the repository root:
 
 ```text
 python codex-model-routing/tests/test_codex_model_routing.py
 ```
 
-The [routing scenarios](./codex-model-routing/evals/routing-cases.json) cover direct work, useful delegation, explicit user choices, risk, and environment failures. Give a blind evaluator only the policy and prompts; compare with expected routes afterward. Decision simulations and script tests do not prove live host behavior. After loading the rules in a new task, check both a small direct task and a genuinely independent workload. Keep evaluation outputs outside the Skill and repository.
-
-## Boundaries
-
-- The payload manages three top-level model fields, four fields in the unique root `[agents]` table, and one paired routing block in `AGENTS.md`.
-- It does not change plugins, MCP, permissions, service tiers, official `[agents.<role>]` subtables, or other unknown configuration.
-- Full updates verify parsed semantics before writing: all managed values must match their targets and every unmanaged value must remain unchanged. Complex TOML layouts that cannot be safely edited are rejected, even when valid TOML; this is not a general-purpose TOML editor.
-- Windows behavior has been checked. Linux and macOS have only static compatibility design coverage, not runtime validation.
-- The public model/configuration documentation and the target host must be rechecked before writing. In particular, reasoning-effort availability is a drift point.
-- This README does not make a release claim and no automatic routing telemetry is provided.
+[Routing scenarios](./codex-model-routing/evals/routing-cases.json) · [Standalone usage guide](./codex-model-routing/README.md) · [Skill instructions](./codex-model-routing/SKILL.md)
 
 ## License
 
-Released under the [MIT License](./LICENSE). Copyright (c) 2026 Muzi.
-
-For the exact user-level behavior and safety conditions, read the installed [Skill README](./codex-model-routing/README.md) and [SKILL.md](./codex-model-routing/SKILL.md).
+[MIT](./LICENSE) · Copyright (c) 2026 Muzi.

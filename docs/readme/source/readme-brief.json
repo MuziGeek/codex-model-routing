@@ -3,7 +3,7 @@
   "scope": "readme",
   "repository": "MuziGeek/codex-model-routing",
   "audience": "Codex users who want a reviewable, user-level routing policy without overwriting unrelated configuration.",
-  "oneSentenceValue": "An auditable Codex Skill that plans and safely applies a deliberate Sol/Luna/Terra routing policy while keeping runtime acceptance separate from static configuration.",
+  "oneSentenceValue": "An auditable Codex Skill that plans and safely applies a current-model-preserving Luna/Terra routing policy while keeping runtime acceptance separate from static configuration.",
   "primaryProof": "The shipped standard-library payload provides read-only audit and plan modes, atomic apply, backups with SHA-256 manifests, unknown-configuration preservation, and conflict stops.",
   "firstSuccessfulAction": "Install through the current Codex Skill Installer and run the read-only audit command before planning or applying any user-level change.",
   "coreDecision": {
@@ -16,7 +16,7 @@
       "palette": "#F7F4ED canvas, #263238 ink, #8A6F47 primary, #607D7A secondary, #B56B4A accent.",
       "typography": "System sans-serif with a compact mono-like metadata rhythm; PingFang SC fallback for Chinese.",
       "shape": "28px outer canvas radius, 16px route-node radius, 2–4px direct strokes.",
-      "motif": "Explicit routing graph: Sol Max → Luna/Terra, high-risk return to Sol, all paths to acceptance.",
+      "motif": "Explicit routing graph: Current model → Luna/Terra, high-risk return to the main thread, all paths to acceptance.",
       "composition": "Quiet split desktop hero plus a compact stacked mobile route, preserving the same proof and acceptance path."
     }
   },
@@ -54,7 +54,7 @@
     "value": "Auditable configuration and behavior rules for deliberate Codex subagent dispatch.",
     "context": "CODEX SKILL · EXPLICIT ROUTING",
     "processCue": "AUDIT FIRST · PRESERVE UNKNOWN CONFIG · VERIFY AT RUNTIME",
-    "proofLabels": ["SOL MAX", "PLAN · ROUTE · VERIFY", "LUNA MEDIUM", "CLEAR · REPEATABLE", "TERRA HIGH", "EVERYDAY BUILD", "ACCEPTANCE", "DIFF · TESTS · RUNTIME CHECK", "RISK / AMBIGUITY → SOL", "Defaults support routing; explicit dispatch comes from", "direct requests or applicable AGENTS / Skill instructions.", "codex-model-routing: explicit model-routing policy for Codex", "A routing map where Sol Max plans, routes, and verifies; Luna Medium handles clear repeatable work; Terra High handles everyday implementation; risk or ambiguity returns to Sol; all paths lead to acceptance."]
+    "proofLabels": ["CURRENT MODEL", "PLAN · ROUTE · VERIFY", "LUNA MEDIUM", "CLEAR · REPEATABLE", "TERRA HIGH", "EVERYDAY BUILD", "ACCEPTANCE", "DIFF · TESTS · RUNTIME CHECK", "RISK / AMBIGUITY → MAIN", "Defaults support routing; explicit dispatch comes from", "direct requests or applicable AGENTS / Skill instructions.", "codex-model-routing: explicit model-routing policy for Codex", "A routing map where the current main-thread model plans, routes, and verifies; Luna Medium handles clear repeatable work; Terra High handles everyday implementation; risk or ambiguity returns to the main thread; all paths lead to acceptance."]
   },
   "localizedHeroCopy": {
     "zh-CN": {
@@ -62,7 +62,7 @@
       "value": "为有意图的 Codex 子代理派发提供可审计的本地配置与行为规则。",
       "context": "CODEX SKILL · 显式派发",
       "processCue": "先审计 · 保留未知配置 · 运行时复核",
-      "proofLabels": ["SOL MAX", "规划 · 路由 · 验收", "LUNA MEDIUM", "清晰 · 可重复", "TERRA HIGH", "日常实现", "验收", "差异 · 测试 · 运行时复核", "高风险 / 模糊 → SOL", "默认值只提供路由基础；实际显式派发来自", "直接请求或适用的 AGENTS / Skill 指令。", "codex-model-routing：Codex 的显式模型路由策略", "一张路由图：Sol Max 负责规划、路由和验收；Luna Medium 处理清晰且可重复的工作；Terra High 处理日常实现；高风险或模糊任务回到 Sol；所有路径汇入验收。"]
+      "proofLabels": ["CURRENT MODEL", "规划 · 路由 · 验收", "LUNA MEDIUM", "清晰 · 可重复", "TERRA HIGH", "日常实现", "验收", "差异 · 测试 · 运行时复核", "高风险 / 模糊 → 主线程", "默认值只提供路由基础；实际显式派发来自", "直接请求或适用的 AGENTS / Skill 指令。", "codex-model-routing：Codex 的显式模型路由策略", "一张路由图：当前主线程负责规划、路由和验收；Luna Medium 处理清晰且可重复的工作；Terra High 处理日常实现；高风险或模糊任务回到主线程；所有路径汇入验收。"]
     }
   },
   "lockedCopy": [
@@ -72,7 +72,7 @@
     "for deliberate Codex subagent dispatch.",
     "CODEX SKILL · EXPLICIT ROUTING",
     "AUDIT FIRST · PRESERVE UNKNOWN CONFIG · VERIFY AT RUNTIME",
-    "SOL MAX",
+    "CURRENT MODEL",
     "PLAN · ROUTE · VERIFY",
     "LUNA MEDIUM",
     "CLEAR · REPEATABLE",
@@ -80,11 +80,11 @@
     "EVERYDAY BUILD",
     "ACCEPTANCE",
     "DIFF · TESTS · RUNTIME CHECK",
-    "RISK / AMBIGUITY → SOL",
+    "RISK / AMBIGUITY → MAIN",
     "Defaults support routing; explicit dispatch comes from",
     "direct requests or applicable AGENTS / Skill instructions.",
     "codex-model-routing: explicit model-routing policy for Codex",
-    "A routing map where Sol Max plans, routes, and verifies; Luna Medium handles clear repeatable work; Terra High handles everyday implementation; risk or ambiguity returns to Sol; all paths lead to acceptance.",
+    "A routing map where the current main-thread model plans, routes, and verifies; Luna Medium handles clear repeatable work; Terra High handles everyday implementation; risk or ambiguity returns to the main thread; all paths lead to acceptance.",
     "为有意图的 Codex 子代理派发提供可审计的本地配置与行为规则。",
     "为有意图的 Codex 子代理派发提供",
     "可审计的本地配置与行为规则。",
@@ -95,11 +95,11 @@
     "日常实现",
     "验收",
     "差异 · 测试 · 运行时复核",
-    "高风险 / 模糊 → SOL",
+    "高风险 / 模糊 → 主线程",
     "默认值只提供路由基础；实际显式派发来自",
     "直接请求或适用的 AGENTS / Skill 指令。",
     "codex-model-routing：Codex 的显式模型路由策略",
-    "一张路由图：Sol Max 负责规划、路由和验收；Luna Medium 处理清晰且可重复的工作；Terra High 处理日常实现；高风险或模糊任务回到 Sol；所有路径汇入验收。"
+    "一张路由图：当前主线程负责规划、路由和验收；Luna Medium 处理清晰且可重复的工作；Terra High 处理日常实现；高风险或模糊任务回到主线程；所有路径汇入验收。"
   ],
   "status": "READY_FOR_REVIEW"
 }

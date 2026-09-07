@@ -18,7 +18,7 @@
   },
   "content": {
     "project": "codex-model-routing",
-    "motif": "An explicit routing graph: Sol Max plans, routes, and verifies; Luna Medium handles clear repeatable work; Terra High handles everyday implementation; high-risk or ambiguous work returns to Sol; paths converge on acceptance.",
+    "motif": "An explicit routing graph: the current main-thread model plans, routes, and verifies; Luna Medium handles clear repeatable work; Terra High handles everyday implementation; high-risk or ambiguous work returns to the main thread; paths converge on acceptance.",
     "palette": {
       "canvas": "#F7F4ED",
       "ink": "#263238",
