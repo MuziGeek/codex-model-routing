@@ -27,24 +27,33 @@ Codex configuration can set defaults for subagent model and reasoning effort. Ac
 
 This Skill writes the accompanying `AGENTS.md` routing rule so that the model choice is observable and reviewable. It does not claim automatic routing telemetry, a release workflow, or a runtime dispatch that has not been independently observed.
 
+**Direct first, route only when worthwhile.** A lookup, small edit, local review, or one test run stays in the main thread. Reading, editing, and testing one small change—even across related files—is one task, not a reason to split. Delegate only a bounded, independently verifiable work item with genuine parallel-work or independent-review value that exceeds handoff and integration cost. When unsure, work directly. Respect explicit requests to use or avoid subagents; do not add a review just to meet a quota. Small direct tasks need no routing ceremony.
+
 The division follows OpenAI's current guidance for [Sol, Terra, Luna, Max, and Ultra](https://learn.chatgpt.com/docs/models), while the dispatch behavior and override precedence come from the official [Subagents](https://learn.chatgpt.com/docs/agent-configuration/subagents) documentation. Supported configuration keys must always be checked against the current [Configuration Reference](https://learn.chatgpt.com/docs/config-file/config-reference).
 
 | Work shape | Intended handling |
 | --- | --- |
-| Architecture, security, migration, data-loss, production risk, or ambiguity | Keep the decision in Sol Max |
-| Clear, repeatable research, organization, documentation, or mechanical work | Explicitly dispatch Luna Medium |
-| Everyday multi-file implementation, integration, debugging, or review | Explicitly dispatch Terra High |
-| Non-high-risk coupled debugging with prior failure evidence | Escalate Terra once to XHigh, then re-evaluate |
+| Simple coherent task, tightly coupled serial work, or unclear delegation value | Main thread directly; no forced split |
+| Architecture, security, migration, data-loss, production risk, or ambiguity | Keep the core decision in the main thread |
+| Clear, repeatable research, organization, documentation, or mechanical work that passes the delegation gate | Luna Medium |
+| Everyday implementation, integration, debugging, or review that passes the delegation gate | Terra High |
+| Non-high-risk debugging that still passes the gate, after a documented Terra High failure | Escalate Terra once to XHigh, then re-evaluate |
 
 ## Install and take the first safe action
 
-Install this Skill from its GitHub source with the Codex Skill Installer:
+Ask your Agent: **Please install this Skill: https://github.com/MuziGeek/codex-model-routing**.
 
-<https://github.com/MuziGeek/codex-model-routing/tree/main/codex-model-routing>
+Or install with the optional Node.js-based installer (Node.js is not a runtime dependency of this Skill):
 
-Use the Installer's current flow as the source of truth, and verify that it resolves the `codex-model-routing` directory with its `SKILL.md`, `scripts`, and `references` intact. If an installer is unavailable, manually copy that whole directory into a Codex-discoverable Skill location; do not invent an `npx` command.
+```text
+npx skills add MuziGeek/codex-model-routing --skill codex-model-routing
+```
+
+Add `--list` to check discovery without installing. If an installer is unavailable, manually copy the whole `codex-model-routing` payload directory into a Codex-discoverable Skill location.
 
 Then begin with a read-only audit from the installed Skill directory:
+
+The script requires Python 3.11+. Below, `python` means a verified interpreter; check `py -3` on Windows or `python3` on macOS/Linux, or use the interpreter's full path.
 
 ```text
 python scripts/codex_model_routing.py --codex-home <Codex Home> audit
@@ -53,6 +62,15 @@ python scripts/codex_model_routing.py --codex-home <Codex Home> audit
 `CODEX_HOME` is used when set; otherwise the script uses the current user's `.codex` directory. Supplying `--codex-home` is useful for an isolated test directory.
 
 ## Plan before apply
+
+For a behavior-only update, preserve the user's selected main model and all configuration bytes with `--rules-only`. It manages only the paired `AGENTS.md` block, backs up that file, and does **not** read or validate `config.toml`:
+
+```text
+python scripts/codex_model_routing.py --codex-home <Codex Home> --rules-only plan
+python scripts/codex_model_routing.py --codex-home <Codex Home> --rules-only apply --confirm-user-level-change
+```
+
+The full mode below installs the Sol Max preset and requires model compatibility checks. Do not use it merely to update dispatch behavior when a different main model has been selected.
 
 Only use a write after reviewing the current plan and receiving explicit authorization for this user-level change:
 
@@ -75,10 +93,13 @@ Run the payload tests from this repository root:
 python codex-model-routing/tests/test_codex_model_routing.py
 ```
 
+The [routing scenarios](./codex-model-routing/evals/routing-cases.json) cover direct work, useful delegation, explicit user choices, risk, and environment failures. Give a blind evaluator only the policy and prompts; compare with expected routes afterward. Decision simulations and script tests do not prove live host behavior. After loading the rules in a new task, check both a small direct task and a genuinely independent workload. Keep evaluation outputs outside the Skill and repository.
+
 ## Boundaries
 
 - The payload manages three top-level model fields, four fields in the unique root `[agents]` table, and one paired routing block in `AGENTS.md`.
 - It does not change plugins, MCP, permissions, service tiers, official `[agents.<role>]` subtables, or other unknown configuration.
+- Full updates verify parsed semantics before writing: all managed values must match their targets and every unmanaged value must remain unchanged. Complex TOML layouts that cannot be safely edited are rejected, even when valid TOML; this is not a general-purpose TOML editor.
 - Windows behavior has been checked. Linux and macOS have only static compatibility design coverage, not runtime validation.
 - The public model/configuration documentation and the target host must be rechecked before writing. In particular, reasoning-effort availability is a drift point.
 - This README does not make a release claim and no automatic routing telemetry is provided.

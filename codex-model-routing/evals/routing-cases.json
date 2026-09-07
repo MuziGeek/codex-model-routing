@@ -1,0 +1,20 @@
+{
+  "purpose": "Decision-only evaluation; give an independent evaluator ROUTING_BLOCK and id/prompt, never expected_route or rationale. This does not prove runtime dispatch.",
+  "routes": ["direct", "luna-medium", "terra-high", "terra-xhigh"],
+  "cases": [
+    {"id": "R01", "prompt": "把 README 里的一处拼写错误修正，检查差异。", "expected_route": "direct", "rationale": "单一低风险闭环，不因文档标签派发。"},
+    {"id": "R02", "prompt": "运行现有的单元测试命令，告诉我是否通过。", "expected_route": "direct", "rationale": "单次测试，不拆出测试代理。"},
+    {"id": "R03", "prompt": "在仓库中找到 parseDate 的定义，告诉我文件位置。", "expected_route": "direct", "rationale": "工具检索本身不构成派发理由。"},
+    {"id": "R04", "prompt": "把一个按钮名称从‘确认’改为‘保存’，组件、对应测试和使用说明各有一处引用，一并调整并验证。", "expected_route": "direct", "rationale": "几个关联文件仍是同一小目标。"},
+    {"id": "R05", "prompt": "审查这段 25 行的纯字符串格式化函数，指出明显问题，不修改文件。", "expected_route": "direct", "rationale": "局部审查不自动触发 Terra。"},
+    {"id": "R06", "prompt": "整理 80 份相互独立的本地 Markdown 资料的标题、日期和摘要，统一输出索引。资料可按目录分批，主线程可同时确定索引格式并整理另一批。", "expected_route": "luna-medium", "rationale": "真实独立文档批次，有并行收益。"},
+    {"id": "R07", "prompt": "按照已经确定的接口，实现两个相互独立的导入适配器，分别有各自的文件和测试；主线程同时做公共入口集成。", "expected_route": "terra-high", "rationale": "已知边界的独立实现，可独立验收。"},
+    {"id": "R08", "prompt": "调试一个跨五个文件的状态更新问题。每一步必须根据前一步的同一调试会话结果推进，当前没有可独立复现的分支。", "expected_route": "direct", "rationale": "串行耦合不因复杂而强拆。"},
+    {"id": "R09", "prompt": "生产数据库迁移可能丢失数据，帮我决定是否执行并制定回滚边界。", "expected_route": "direct", "rationale": "高风险核心决策主线程负责，不执行迁移。"},
+    {"id": "R10", "prompt": "请明确使用一个子代理，只读检查 README 是否有拼写错误，不修改。", "expected_route": "luna-medium", "rationale": "用户明确要求，真实小任务可越过成本门槛。"},
+    {"id": "R11", "prompt": "实现两个已定义接口的独立适配器，但这次不要使用任何子代理。", "expected_route": "direct", "rationale": "尊重显式禁止派发。"},
+    {"id": "R12", "prompt": "测试因为缺少依赖无法启动，请检查原因；目前还没有业务断言失败。", "expected_route": "direct", "rationale": "环境诊断，不升级模型或制造拆分。"},
+    {"id": "R13", "prompt": "一个 Terra High 子代理在隔离复现的非生产调度器 bug 上尝试失败，已有原因记录；现有独立复现仍可单独交付，主线程同时验证修复边界，希望继续排查。此前没有升级过。", "expected_route": "terra-xhigh", "rationale": "有失败证据、独立收益且仅升级一次。"},
+    {"id": "R14", "prompt": "给一个小型配置解析器新增一个默认值，再补上已有测试里的边界断言。你觉得需要别人复核也可以。", "expected_route": "direct", "rationale": "允许复核不等于要求；小任务不能凭允许制造复核成本。"}
+  ]
+}

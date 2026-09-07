@@ -1,0 +1,29 @@
+{
+  "skill_name": "codex-model-routing",
+  "evals": [
+    {
+      "id": 1,
+      "name": "multiline-config-safety",
+      "prompt": "在隔离目录检查完整 apply 对合法多行说明的处理。说明内包含看起来像表头或模型赋值的文本。必须保留说明；如果不能安全编辑就停止，不能报告成功却没有设置实际目标。不要修改真实用户配置。",
+      "expected_output": "全部输入得到语义正确且保留未知值的更新，或在任何写入前拒绝。",
+      "files": [],
+      "expectations": ["多行说明不被误写且真实受管值正确，或安全拒绝", "失败时原文件字节不变且不创建备份"]
+    },
+    {
+      "id": 2,
+      "name": "rules-only-keeps-user-model",
+      "prompt": "仅更新隔离目录的 AGENTS.md 路由规则，保留用户选择的主模型与其他配置；再次执行时不重复修改或备份。不要修改真实用户配置。",
+      "expected_output": "规则更新成功，配置字节保持一致，再次执行无变化。",
+      "files": [],
+      "expectations": ["仅规则更新保留配置字节且产生唯一受管块", "再次 apply 无变化且不增加备份"]
+    },
+    {
+      "id": 3,
+      "name": "preview-is-read-only",
+      "prompt": "只预览隔离目录中的普通配置修复差异。用户尚未授权写入，保留两份输入文件且不创建备份。",
+      "expected_output": "输出可检查的候选差异，文件未写入。",
+      "files": [],
+      "expectations": ["plan 成功并提供候选 diff", "plan 不改变任何输入文件且不创建备份"]
+    }
+  ]
+}
